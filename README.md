@@ -1,30 +1,29 @@
-# React + TypeScript + Vite
+<!-- @format -->
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This Project is Created with Vite.
+Version of Node.js using in this project while creating this Project is 20.9.0.
+For designing I'm using MUI.
 
-Currently, two official plugins are available:
+# How to run this Project?
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Your Node.js version will be 20.9.0
+- To run this project first you have to run command "npm i" to install dependencies
+- Run command npm run dev
 
-## Expanding the ESLint configuration
+# Searching
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+As searching is made from Frontend side so, I'm searching on the basis of name(which includes title, first and last name) and with Email.
 
-- Configure the top-level `parserOptions` property like this:
+# Pages and Components
+- This project have two main pages one for listing of Users and other is for details of perticular user
+- I have made componets for Pagination, Search, Profile Card and User Listing.
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+# Map 
+For address of the User I'm showing Google Map and the Api key I'm directly provide in the code. It should be in the ENV file but we don't push Env files so therefore I'm just writing Api key in the code.
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+# Country Flag
+In the provided Api response we have the nationality code so for showing the Flag I'm using another Api to which I provide the nationlaity code which gives the data of that perticular country form where I'm showing the Flag.
+
+
+- I'm not using axios for Api calling, just use the fetch method to call the Api's. I tried not to use packages and make this project simple.
+Generally we are using React Query for Api calling but in this project I'm keeping it simple with calling Api's with Use Effect hook.

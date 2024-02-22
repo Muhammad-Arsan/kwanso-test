@@ -4,39 +4,29 @@ import React, { useCallback, useEffect, useState } from "react";
 import {
   Card,
   CardContent,
-  CardHeader,
   Avatar,
   IconButton,
-  Tooltip,
+  Container,
+  Box,
+  Typography,
+  Stack,
 } from "@mui/material";
-import PersonIcon from "@mui/icons-material/Person";
-import EmailIcon from "@mui/icons-material/Email";
-import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
-import PhoneIcon from "@mui/icons-material/Phone";
-import LocationOnIcon from "@mui/icons-material/LocationOn";
+import {
+  PersonIcon,
+  EmailIcon,
+  AddLocationAltIcon,
+  PhoneIcon,
+  EventIcon,
+  FlagIcon,
+} from "../assets/icons";
 import { GoogleMap, Marker } from "@react-google-maps/api";
-
-interface ProfileCardProps {
-  profile: {
-    pic: string;
-    name: string;
-    email: string;
-    calendar: Date;
-    phone: string;
-    address: string;
-    lat: number;
-    lon: number;
-  };
-}
+import { ProfileCardProps } from "../utils/types";
 
 const ProfileCard: React.FC<ProfileCardProps> = ({ profile }) => {
-  console.log("profile", profile);
-  console.log("Latitude:", profile.lat);
-  console.log("Longitude:", profile.lon);
+  console.log("PROFILE CARD");
 
   const [activeIcon, setActiveIcon] = useState<string>("name");
-//   const [map, setMap] = useState<string>("");
-const [map, setMap] = useState<google.maps.Map | null>(null);
+  const [map, setMap] = useState<google.maps.Map | null>(null);
 
   const handleIconClick = (icon: string) => {
     setActiveIcon(icon);
@@ -59,107 +49,150 @@ const [map, setMap] = useState<google.maps.Map | null>(null);
       map: map,
     });
 
-    const infoWindowContent = `
-    <div>
-    </div>
-  `;
-
-    const infoWindow = new window.google.maps.InfoWindow({
-      content: infoWindowContent,
-    });
-
-    newMarker.addListener("click", () => {
-      infoWindow.open(map, newMarker);
-    });
+    newMarker.addListener("click", () => {});
   }, [map]);
 
-  const onUnmount = useCallback(function callback() {
+  const onUnmount = useCallback(() => {
     setMap(null);
   }, []);
 
   return (
-    <Card>
-      <CardHeader
-        avatar={<Avatar aria-label='profile-avatar' src={profile.pic} />}
-        title={activeIcon === "calendar" ? formattedDate : profile[activeIcon]}
-        subheader={profile.email}
-      />
+    <Container
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "100vh",
+      }}
+    >
+      ``{" "}
+      <Card
+        sx={{
+          width: "100%",
+          maxWidth: "600px",
+          mx: "auto",
+          my: 2,
+          textAlign: "center",
+          paddingY: 7,
+          backgroundColor: "#f5f5f5",
+        }}
+      >
+        <CardContent sx={{ position: "relative" }}>
+          <Avatar
+            sx={{
+              width: 90,
+              height: 90,
+              border: "4px solid",
+              borderColor: "background.paper",
+              position: "absolute",
+              top: "-5px",
+              left: "calc(50% - 45px)",
+              backgroundColor: "primary.light",
+            }}
+            src={profile.pic}
+            alt='Profile Picture'
+          />
+          <Typography
+            variant='h6'
+            color='text.secondary'
+            fontWeight='light'
+            sx={{ mt: 10 }}
+          >
+            My {activeIcon} is
+          </Typography>
+          <Typography
+            variant='h4'
+            fontWeight='bold'
+            color='text.secondary'
+            sx={{ my: 1 }}
+          >
+            {activeIcon === "birthday" ? formattedDate : profile[activeIcon]}
+          </Typography>
+          <Box>
+            {activeIcon === "address" && (
+              <Container>
+                <GoogleMap
+                  mapContainerStyle={mapContainerStyle}
+                  center={{
+                    lat: profile.lat,
+                    lng: profile.lon,
+                  }}
+                  zoom={11}
+                  onLoad={(map) => setMap(map)}
+                  onUnmount={onUnmount}
+                >
+                  {map && (
+                    <Marker
+                      position={{
+                        lat: profile.lat,
+                        lng: profile.lon,
+                      }}
+                    />
+                  )}
+                </GoogleMap>
+              </Container>
+            )}
 
-      {activeIcon === "address" && (
-        <GoogleMap
-          mapContainerStyle={mapContainerStyle}
-          center={{
-            lat: profile.lat,
-            lng: profile.lon,
-          }}
-        //   zoom={11}
-        zoom={11}
-          onLoad={(map) => setMap(map)}
-          onUnmount={onUnmount}
-        >
-          {map && (
-            <Marker
-              position={{
-                lat: profile.lat,
-                lng: profile.lon,
-              }}
-            />
-          )}
-        </GoogleMap>
-        // <LoadScript googleMapsApiKey='AIzaSyCJdaGfHZZEt1heuVb5Hpoe6pZLh61UlEA'>
-        //   <GoogleMap
-        //     mapContainerStyle={mapContainerStyle}
-        //     center={{ lat: profile.lat, lng: profile.lon }}
-        //     zoom={15}
-        //   >
-        //     <Marker position={{ lat: profile.lat, lng: profile.lon }} />
-        //   </GoogleMap>
-        // </LoadScript>
-      )}
-
-      <CardContent>
-        <Tooltip title='Name' arrow>
-          <IconButton
-            onMouseOver={() => handleIconClick("name")}
-            color={activeIcon === "name" ? "primary" : "default"}
-          >
-            <PersonIcon />
-          </IconButton>
-        </Tooltip>
-        <Tooltip title='Email' arrow>
-          <IconButton
-            onMouseOver={() => handleIconClick("email")}
-            color={activeIcon === "email" ? "primary" : "default"}
-          >
-            <EmailIcon />
-          </IconButton>
-        </Tooltip>
-        <Tooltip title='Calendar' arrow>
-          <IconButton
-            onMouseOver={() => handleIconClick("calendar")}
-            color={activeIcon === "calendar" ? "primary" : "default"}
-          >
-            <CalendarTodayIcon />
-          </IconButton>
-        </Tooltip>
-        <Tooltip title='Phone' arrow>
-          <IconButton
-            onMouseOver={() => handleIconClick("phone")}
-            color={activeIcon === "phone" ? "primary" : "default"}
-          >
-            <PhoneIcon />
-          </IconButton>
-        </Tooltip>
-        <Tooltip title='Address' arrow>
-          <IconButton
-            onMouseOver={() => handleIconClick("address")}
-            color={activeIcon === "address" ? "primary" : "default"}
-          >
-            <LocationOnIcon />
-          </IconButton>
-        </Tooltip>
-      </CardContent>
-    </Card>
+            {activeIcon === "country" && (
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  marginY: 5,
+                }}
+              >
+                <img src={profile.flag} width={150} />
+              </Box>
+            )}
+          </Box>
+          <Stack direction='row' justifyContent='center' spacing={2}>
+            <IconButton
+              aria-label='profile'
+              onMouseOver={() => handleIconClick("name")}
+              color={activeIcon === "name" ? "primary" : "default"}
+            >
+              <PersonIcon />
+            </IconButton>
+            <IconButton
+              aria-label='email'
+              onMouseOver={() => handleIconClick("email")}
+              color={activeIcon === "email" ? "primary" : "default"}
+            >
+              <EmailIcon />
+            </IconButton>
+            <IconButton
+              aria-label='calendar'
+              onMouseOver={() => handleIconClick("birthday")}
+              color={activeIcon === "birthday" ? "primary" : "default"}
+            >
+              <EventIcon />
+            </IconButton>
+            <IconButton
+              aria-label='phone'
+              onMouseOver={() => handleIconClick("phone")}
+              color={activeIcon === "phone" ? "primary" : "default"}
+            >
+              <PhoneIcon />
+            </IconButton>
+            <IconButton
+              aria-label='phone'
+              onMouseOver={() => handleIconClick("address")}
+              color={activeIcon === "address" ? "primary" : "default"}
+            >
+              <AddLocationAltIcon />
+            </IconButton>{" "}
+            <IconButton
+              aria-label='phone'
+              onMouseOver={() => handleIconClick("country")}
+              color={activeIcon === "country" ? "primary" : "default"}
+            >
+              <FlagIcon />
+            </IconButton>
+          </Stack>
+        </CardContent>
+      </Card>
+    </Container>
   );
 };
 

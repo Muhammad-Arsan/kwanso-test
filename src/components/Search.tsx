@@ -1,7 +1,5 @@
 /** @format */
 
-// src/components/SearchComponent.tsx
-
 import React, { useState } from "react";
 import { TextField, Button, Box } from "@mui/material";
 

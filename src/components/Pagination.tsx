@@ -1,4 +1,4 @@
-// src/components/PaginationComponent.tsx
+/** @format */
 
 import React from "react";
 import { Box, Pagination } from "@mui/material";
@@ -9,14 +9,28 @@ interface PaginationComponentProps {
   onPageChange: (page: number) => void;
 }
 
-const PaginationComponent: React.FC<PaginationComponentProps> = ({ totalPages, currentPage, onPageChange }) => {
-  const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
+const PaginationComponent: React.FC<PaginationComponentProps> = ({
+  totalPages,
+  currentPage,
+  onPageChange,
+}) => {
+  console.log("PAGINATION");
+  
+  const handlePageChange = (
+    event: React.ChangeEvent<unknown>,
+    value: number
+  ) => {
     onPageChange(value);
   };
 
   return (
-    <Box mt={2} display="flex" justifyContent="center">
-      <Pagination count={totalPages} page={currentPage} onChange={handlePageChange} color="primary" />
+    <Box my={5} display='flex' justifyContent='center'>
+      <Pagination
+        count={totalPages}
+        page={currentPage}
+        onChange={handlePageChange}
+        color='primary'
+      />
     </Box>
   );
 };

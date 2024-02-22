@@ -1,7 +1,5 @@
 /** @format */
 
-// src/components/UserListing.tsx
-
 import React from "react";
 import {
   Box,
@@ -12,44 +10,50 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Typography,
 } from "@mui/material";
-import { RandomUser } from "./Home/Home";
 import { Link } from "react-router-dom";
+import { RandomUser } from "../utils/types";
+import { RemoveRedEyeIcon } from "../assets/icons";
 
-interface UserListingProps  {
+interface UserListingProps {
   users: RandomUser[] | null;
 }
 
 const UserListing: React.FC<UserListingProps> = ({ users }) => {
+  console.log("USER LISTING");
+  
   return (
     <Box px={10}>
       <TableContainer component={Paper}>
         <Table>
-          <TableHead>
+          <TableHead sx={{ background: "#d4d4d4" }}>
             <TableRow>
               <TableCell>Name</TableCell>
               <TableCell>Email</TableCell>
               <TableCell>Location</TableCell>
               <TableCell>Profile</TableCell>
-
-              {/* Add more columns as needed */}
             </TableRow>
           </TableHead>
           <TableBody>
-            {users?.map((user, index) => (
-              <TableRow key={index}>
-                <TableCell>{`${user.name.title} ${user.name.first} ${user.name.last}`}</TableCell>
-                <TableCell>{user.email}</TableCell>
-                <TableCell>{`${user.location.city}, ${user.location.state}, ${user.location.country}`}</TableCell>
-                <TableCell>
-                  {/* <Link to={{ pathname: "/profile", state: { data: user }}}>View Profile</Link> */}
-                  <Link to= "/profile" state= {{ data: user }}>View Profile</Link>
-
-                </TableCell>
-
-                {/* Add more cells as needed */}
-              </TableRow>
-            ))}
+            {users?.length === 0 ? (
+              <Typography my={2} p={1}>
+                No Record Found
+              </Typography>
+            ) : (
+              users?.map((user, index) => (
+                <TableRow key={index}>
+                  <TableCell>{`${user.name.title} ${user.name.first} ${user.name.last}`}</TableCell>
+                  <TableCell>{user.email}</TableCell>
+                  <TableCell>{`${user.location.city}, ${user.location.state}, ${user.location.country}`}</TableCell>
+                  <TableCell>
+                    <Link to='/profile' state={{ data: user }}>
+                      <RemoveRedEyeIcon />
+                    </Link>
+                  </TableCell>
+                </TableRow>
+              ))
+            )}
           </TableBody>
         </Table>
       </TableContainer>
