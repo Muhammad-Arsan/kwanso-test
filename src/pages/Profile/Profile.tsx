@@ -32,9 +32,6 @@ const Profile: React.FC = () => {
     return <div>No user data found</div>;
   }
 
-  console.log("PROFILE PAGE");
-  
-
   return (
     <div>
       <ProfileCard

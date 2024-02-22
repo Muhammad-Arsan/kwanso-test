@@ -21,8 +21,7 @@ interface UserListingProps {
 }
 
 const UserListing: React.FC<UserListingProps> = ({ users }) => {
-  console.log("USER LISTING");
-  
+
   return (
     <Box px={10}>
       <TableContainer component={Paper}>
@@ -41,8 +40,8 @@ const UserListing: React.FC<UserListingProps> = ({ users }) => {
                 No Record Found
               </Typography>
             ) : (
-              users?.map((user, index) => (
-                <TableRow key={index}>
+              users?.map((user) => (
+                <TableRow key={user?.id?.value}>
                   <TableCell>{`${user.name.title} ${user.name.first} ${user.name.last}`}</TableCell>
                   <TableCell>{user.email}</TableCell>
                   <TableCell>{`${user.location.city}, ${user.location.state}, ${user.location.country}`}</TableCell>

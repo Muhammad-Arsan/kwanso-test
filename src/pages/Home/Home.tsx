@@ -68,9 +68,6 @@ const Home: React.FC = () => {
 
   const options = ["male", "female"];
 
-console.log("HOME PAGE");
-
-
   return (
     <div>
       {loading ? (

@@ -23,8 +23,6 @@ import { GoogleMap, Marker } from "@react-google-maps/api";
 import { ProfileCardProps } from "../utils/types";
 
 const ProfileCard: React.FC<ProfileCardProps> = ({ profile }) => {
-  console.log("PROFILE CARD");
-
   const [activeIcon, setActiveIcon] = useState<string>("name");
   const [map, setMap] = useState<google.maps.Map | null>(null);
 
@@ -117,7 +115,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ profile }) => {
                     lat: profile.lat,
                     lng: profile.lon,
                   }}
-                  zoom={11}
+                  zoom={1}
                   onLoad={(map) => setMap(map)}
                   onUnmount={onUnmount}
                 >
@@ -142,7 +140,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ profile }) => {
                   marginY: 5,
                 }}
               >
-                <img src={profile.flag} width={150} />
+                <img src={profile.flag} width={150} alt='Country Flag' />
               </Box>
             )}
           </Box>
